@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "hackathon-code"
+version = "0.1.0"
+description = ""
+authors = [
+    "Igor Gakhov <gakhov_igor@rambler.ru>",
+    # Lyubov Shumilova
+    # Sergey Prokhorov
+]
+packages = [
+  { include = "src" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^6.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

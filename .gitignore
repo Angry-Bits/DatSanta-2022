@@ -1,0 +1,5 @@
+.*-version
+__pycache__
+*cache
+.venv
+dist
