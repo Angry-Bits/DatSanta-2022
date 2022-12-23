@@ -1,0 +1,376 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Datsanta API Этап 1",
+    "description": "\n![Datsanta image](https://by3302files.storage.live.com/y4mGVijRr9OMXDP7nwH0rAAnxHyinqd9x9Y3ohd78fgCFo07d56xgxKYHEt99hPwb183WtgGZl0DP7S7h6re3bYxCZiokhumMpe0DW4vqhdyvVQVQ7Mv5U9s00yUF9-DLvDyyKFUcai4luDokUbwGKzNolmJAb1k3I8jtNefX-DOF7WVtwuGvyF0Mjy-LUcT0hV?width=1280&height=720&cropmode=none)\n__ВНИМАНИЕ!!!__ Санта заболел ковидом. Последнюю магию, которая у него оставалась, он потратил на 3 Макбука, чтобы призвать Эльфов на помощь. Мы разделили подготовку к новогодней ночи на 3 этапа. Начнем с первого! \n\nНеобходимо понять как Санте развести все подарки детям за минимальное время. У нас не будет магии Санты, а значит Эльфы должны найти такой маршрут, за который дети смогут получить подарки как можно быстрее.\n\n__Начало этапа: 17:00 23.12.2022 .__\n\n__Окончание этапа: 16:00 26.12.2022 .__\n\nНам известно, что сани вмещают подарков максимум на 200 килограммов веса или 100 дм.куб. объема. Сразу все подарки в сани не поместятся, поэтому придется постоянно возвращаться за подарками на склад (координаты x=0, y=0), при этом из заданного перечня сумок берется последняя сумка. Сани стартуют со склада, автоматически загрузив одну сумку с подарками. А еще нам известно, что волшебные сани движутся со скоростью 70км/с, и надо сделать остановку над домом ребенка, чтобы доставить подарок.  Сани как-то сами сбрасывают подарок точно в дымоход, через который он закатывается под ёлку (чудеса, да и только). Интересная деталь - из сумки берётся верхний (последний) подарок и сбрасывается ребёнку из саней (LIFO).\n\nСанта любит снег, но его сани очень тормозят, летая по области, в которой идет снег, скорость падает до 10км/с. И снег идет одновременно в нескольких районах города всю ночь. Снежная область задается окружностью, с указанием координат центра и радиусом.\n\n![Santa speeder image](https://by3302files.storage.live.com/y4m2Uy-RUWdXaUv400mpiEbtOkDrRl2vhqk8k78Pr8-rRnpNO4E8X9EXP186fHikfCT1aEokyXjoSm25nhDjSZxENzKYvwSUGZm1DlH9gU9GanD6KlnSZILHNytGyXko_YuACNeOQu1-kzUZe_wS2qOYhZZUNlwfTLVqyz6Jad1l_GCjLY0qIRuFNGxJn0kPvib?width=780&height=149&cropmode=none)\n\nУ нас есть координаты домов, куда нужно доставить подарки, и сам перечень подарков. Задание считается успешно выполненным, если всем детям были доставлены подарки. \n\nВам нужно сделать 3 шага: \n1. Получить данные карты и подарков \n2. Сформировать и отправить свой маршрут \n3. Узнать статус обработки маршрута \n\nТакже вы можете повторять п.2 и п.3 до окончания раунда этапа, но помните, что каждый ваш маршрут будет обрабатываться 5 минут сервером. \n\nДля этого этапа индентификатор карты __map_id = faf7ef78-41b3-4a36-8423-688a61929c08__",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://datsanta.dats.team"
+    }
+  ],
+  "tags": [
+    {
+      "name": "map",
+      "description": "Получить данные карты"
+    },
+    {
+      "name": "route",
+      "description": "Маршрут доставки подарков"
+    }
+  ],
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/json/map/{map_id}.json": {
+      "get": {
+        "tags": [
+          "map"
+        ],
+        "summary": "Получение данных детей, подарков и снежных зон.",
+        "operationId": "getMap",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "map_id",
+            "description": "ID карты",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "faf7ef78-41b3-4a36-8423-688a61929c08"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешный запрос",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Map"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Карта не найдена"
+          }
+        }
+      }
+    },
+    "/api/round": {
+      "post": {
+        "tags": [
+          "route"
+        ],
+        "summary": "Отправка маршрута и получение ID созданного раунда",
+        "description": "",
+        "operationId": "sendRoute",
+        "requestBody": {
+          "description": "Отправка своего варианта маршрута",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Route"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewRouteResponce"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/round/{id}": {
+      "get": {
+        "tags": [
+          "route"
+        ],
+        "summary": "Возвращает статус отправленного ранее маршрута",
+        "description": "",
+        "operationId": "getRouteStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор отправленного ранее маршрута",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RouteStatusResponce"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Map": {
+        "type": "object",
+        "properties": {
+          "gifts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Gift"
+            }
+          },
+          "snowAreas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SnowArea"
+            }
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Child"
+            }
+          }
+        }
+      },
+      "Gift": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Идентификатор подарка",
+            "format": "int64",
+            "example": 10
+          },
+          "weight": {
+            "type": "integer",
+            "description": "Вес подарка, кг",
+            "format": "int64",
+            "example": 4
+          },
+          "volume": {
+            "type": "integer",
+            "description": "Объем подарка, дм.куб.",
+            "format": "int64",
+            "example": 12
+          }
+        }
+      },
+      "SnowArea": {
+        "type": "object",
+        "properties": {
+          "r": {
+            "type": "integer",
+            "description": "Радиус окружности, описывающей снежную зону",
+            "format": "int64",
+            "example": 10
+          },
+          "x": {
+            "type": "integer",
+            "description": "Координата X центра окружности, описывающей снежную зону",
+            "format": "int64",
+            "example": 100
+          },
+          "y": {
+            "type": "integer",
+            "description": "Координата Y центра окружности, описывающей снежную зону",
+            "format": "int64",
+            "example": 250
+          }
+        }
+      },
+      "Child": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "integer",
+            "description": "Координата X дома, в котором живет ребенок",
+            "format": "int64",
+            "example": 250
+          },
+          "y": {
+            "type": "integer",
+            "description": "Координата Y дома, в котором живет ребенок",
+            "format": "int64",
+            "example": 100
+          }
+        }
+      },
+      "Route": {
+        "type": "object",
+        "properties": {
+          "mapID": {
+            "type": "string",
+            "description": "Идентификатор карты"
+          },
+          "moves": {
+            "type": "array",
+            "description": "Массив объектов с координатами, в которые будет совершаться перемещение",
+            "example": [
+              {
+                "x": 30,
+                "y": 60
+              },
+              {
+                "x": 120,
+                "y": 60
+              },
+              {
+                "x": 45,
+                "y": 150
+              },
+              {
+                "x": 0,
+                "y": 0
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/Move"
+            }
+          },
+          "stackOfBags": {
+            "type": "array [ array [ integer ] ]",
+            "description": "Массив с сумками подарков, при заходе в точку 0,0 (учитывая старт) берётся последний элемент",
+            "example": [
+              [
+                1,
+                2,
+                3
+              ],
+              [
+                4,
+                5,
+                6
+              ]
+            ],
+            "items": {
+              "$ref": "#/components/schemas/GiftBag"
+            }
+          }
+        }
+      },
+      "Move": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "integer",
+            "description": "Координата X дома, в котором живет ребенок",
+            "format": "int64",
+            "example": 250
+          },
+          "y": {
+            "type": "integer",
+            "description": "Координата Y дома, в котором живет ребенок",
+            "format": "int64",
+            "example": 100
+          }
+        }
+      },
+      "GiftBag": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        }
+      },
+      "NewRouteResponce": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Показатель успешности запроса",
+            "type": "boolean"
+          },
+          "error": {
+            "description": "Сообщение с описанием ошибки",
+            "type": "string",
+            "nullable": true
+          },
+          "roundId": {
+            "description": "ID созданного раунда",
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "RouteStatusResponce": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Показатель успешности запроса",
+            "type": "boolean"
+          },
+          "error": {
+            "description": "Сообщение с описанием ошибки",
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/RoundProcessingResult"
+          }
+        }
+      },
+      "RoundProcessingResult": {
+        "type": "object",
+        "nullable": true,
+        "description": "Информация о раунде",
+        "properties": {
+          "error_message": {
+            "description": "Описание ошибки обработки раунда",
+            "type": "string"
+          },
+          "status": {
+            "description": "Статус раунда",
+            "type": "string"
+          },
+          "total_time": {
+            "description": "Итоговое время раунда",
+            "type": "integer"
+          },
+          "total_length": {
+            "description": "Итоговое пройденное расстояние",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    }
+  }
+}
