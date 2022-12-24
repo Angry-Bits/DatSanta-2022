@@ -21,8 +21,8 @@ def create_cluster(points: List[Tuple[float, float]],
         # Находим точку с минимальной дистанцией до точек в кластере
         closest_point = min(
             points, key=lambda point: min(
-                [math.sqrt((point[0] - c[0]) ** 2 + \
-                    (point[1]-c[1]) ** 2) for c in cluster]
+                [math.sqrt((point[0] - c[0]) ** 2 +
+                    (point[1] - c[1]) ** 2) for c in cluster]
             )
         )
         # Добавляем точку в кластер
