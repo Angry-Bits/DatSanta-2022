@@ -1,5 +1,5 @@
 import math
-from typing import List, Tuple
+from typing import List, Dict, Tuple
 
 
 def create_cluster(points: List[Tuple[float, float]],
@@ -8,7 +8,7 @@ def create_cluster(points: List[Tuple[float, float]],
 
     # Находим точку с минимальной дистанцией до начала координат
     closest_point = min(
-        points, key=lambda point: math.sqrt(point[0]**2 + point[1]**2)
+        points, key=lambda point: math.sqrt(point[0] ** 2 + point[1] ** 2)
     )
     # Добавляем точку в кластер
     cluster.append(closest_point)
@@ -32,3 +32,7 @@ def create_cluster(points: List[Tuple[float, float]],
         points.remove(closest_point)
 
     return cluster
+
+
+def get_children_addresses(children: List[Dict]) -> List[Tuple]:
+    return list(tuple(point.values()) for point in children)
