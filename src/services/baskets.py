@@ -7,7 +7,7 @@ def get_gift_baskets(gifts: List[Dict[Literal['id', 'weight', 'volume'], int]],
                      selection: Literal['all', 'id', 'weight', 'volume'] = 'all',
                      reverse: bool = False) -> List[List]:
     # Сортируем список подарков по убыванию соотношения ценности (веса/объема)
-    gifts.sort(key=lambda x: x['weight'] / x['volume'], reverse=True)
+    # gifts.sort(key=lambda x: x['weight'] / x['volume'], reverse=True)  -  deprecated!
 
     # Список мешков, которые будут возвращены из функции
     baskets = []

@@ -1,7 +1,10 @@
+import re
+
 from src.services.points import create_cluster, get_children_addresses
 from src.services.baskets import get_gift_baskets
 from src.services.system import write_to_file, dict_to_json_str, RESULT_JSON_PATH
-from src.services.net import get_map, post_json, MAP_ID
+from src.services.net import get_map, post_json, get_result, MAP_ID
+from src.logger import logger
 
 
 def main(map_id: str = MAP_ID):
@@ -36,8 +39,12 @@ def main(map_id: str = MAP_ID):
     data = dict_to_json_str(request)
     write_to_file(data, RESULT_JSON_PATH)
 
-    # Отправляем данные на сервер
-    post_json(request)
+    # Отправляем данные на сервер и получаем результат
+    r = post_json(request)
+    round_id = re.search(r'"roundId":"(.*)"', r.text).group(1)
+    logger.debug("Round ID = {}".format(round_id))
+    if round_id:
+        get_result(round_id)
 
 
 if __name__ == '__main__':

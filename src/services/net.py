@@ -1,17 +1,22 @@
 import json
+import time
 
 import requests
+
+from src.logger import logger
 
 
 MAP_ID = 'faf7ef78-41b3-4a36-8423-688a61929c08'
 URL_MAP_GET = 'https://datsanta.dats.team/json/map/{}.json'
+URL_JSON_GET = 'https://datsanta.dats.team/api/round/{}'
 URL_JSON_POST = 'https://datsanta.dats.team/api/round'
 TEAM_SECRET_TOKEN = 'bf31be91-70a6-476e-ae99-2b1c50f58ab8'
 
 
-def get_map(id: str = MAP_ID):
+def get_map(id):
     r = requests.get(URL_MAP_GET.format(id))
     data = json.loads(r.text)
+    logger.info("Получена карта с ID {}".format(id))
     return data
 
 
@@ -20,19 +25,27 @@ def post_json(data):
         "Content-Type": "application/json",
         "X-API-Key": TEAM_SECRET_TOKEN
     })
-    print(r.status_code, r.text)
+    logger.info("Отправлены данные на сервер.\n" +
+        "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text)
+    )
+    return r
 
 
-
-# round id: 01GN3XHVGESA59CHNFWJKTK2HN
-# round id: 01GN3YS4KMTBWT55PX8RXKWCHE
-
-def get_json():
-    r = requests.get('https://datsanta.dats.team/api/round/01GN3YS4KMTBWT55PX8RXKWCHE', headers={
+def get_result(round_id):
+    logger.info("Запрос подтверждения решения...")
+    r = requests.get(URL_JSON_GET.format(round_id), headers={
         "Content-Type": "application/json",
         "X-API-Key": TEAM_SECRET_TOKEN
     })
-    print(r.status_code, r.text)
-
-
-get_json()
+    if '"status":"pending"' in r.text:
+        logger.info("Решение находится в обработке...")
+        time.sleep(120)
+        get_result(round_id)
+    elif '"status":"processed"' in r.text:
+        logger.info("Получены данные с сервера.\n" +
+            "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text)
+        )
+    else:
+        logger.info("Возникла ошибка.\n" +
+            "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text)
+        )
