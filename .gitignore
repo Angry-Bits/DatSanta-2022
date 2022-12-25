@@ -3,4 +3,5 @@ __pycache__
 *cache
 .venv
 dist
+*.log
 src/services/draft.py
