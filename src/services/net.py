@@ -21,3 +21,18 @@ def post_json(data):
         "X-API-Key": TEAM_SECRET_TOKEN
     })
     print(r.status_code, r.text)
+
+
+
+# round id: 01GN3XHVGESA59CHNFWJKTK2HN
+# round id: 01GN3YS4KMTBWT55PX8RXKWCHE
+
+def get_json():
+    r = requests.get('https://datsanta.dats.team/api/round/01GN3YS4KMTBWT55PX8RXKWCHE', headers={
+        "Content-Type": "application/json",
+        "X-API-Key": TEAM_SECRET_TOKEN
+    })
+    print(r.status_code, r.text)
+
+
+get_json()

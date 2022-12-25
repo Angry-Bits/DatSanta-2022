@@ -27,7 +27,7 @@ def main(map_id: str = MAP_ID):
 
         # Добавляем готовые данные в наш будущий JSON
         request["moves"].extend({"x": _[0], "y": _[1]} for _ in cluster)
-        request["stackOfBags"].append(bag)
+        request["stackOfBags"].insert(0, bag)
 
         # После обхода детей в кластере возвращаемся на базу
         request["moves"].append({"x": 0, "y": 0})
