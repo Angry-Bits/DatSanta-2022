@@ -7,6 +7,7 @@ from src.logger import logger
 
 
 MAP_ID = 'faf7ef78-41b3-4a36-8423-688a61929c08'
+MAP2_ID = 'a8e01288-28f8-45ee-9db4-f74fc4ff02c8'
 URL_MAP_GET = 'https://datsanta.dats.team/json/map/{}.json'
 URL_JSON_GET = 'https://datsanta.dats.team/api/round/{}'
 URL_JSON_POST = 'https://datsanta.dats.team/api/round'
