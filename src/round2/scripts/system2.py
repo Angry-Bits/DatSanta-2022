@@ -17,3 +17,4 @@ def write_to_file(data, file_path):
 def dict_to_json_str(data):
     data = json.dumps(data, indent=4)
     return data
+
