@@ -36,6 +36,7 @@ for item in move:
     x_list.append(datetime.utcfromtimestamp(item['x']))
     y_list.append(item['y'])
 
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     w = MainWindow(x_list, y_list)
