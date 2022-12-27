@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = [
     "Igor Gakhov <gakhov_igor@rambler.ru>",
-    # Lyubov Shumilova
+    "Lyubov Shumilova <shumilova.lyubochka@gmail.com>"
     # Sergey Prokhorov
 ]
 packages = [
