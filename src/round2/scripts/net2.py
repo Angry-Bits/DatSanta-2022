@@ -70,6 +70,4 @@ def dict_to_json_str(data):
     return data
 
 
-get_map(MAP2_ID)
-write_to_file(MAP2_ID, MAP_FIXTURE_PATH_2)
-print(dict_to_json_str(get_map(MAP2_ID)))
+write_to_file(dict_to_json_str(get_map(MAP3_ID)), MAP_FIXTURE_PATH_2)

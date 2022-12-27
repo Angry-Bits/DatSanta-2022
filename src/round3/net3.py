@@ -70,7 +70,4 @@ def dict_to_json_str(data):
     return data
 
 
-f = get_map(MAP3_ID)
-# write_to_file(MAP3_ID, MAP_FIXTURE_PATH_3)
-a = dict_to_json_str(f['children'])
-print(a)
+write_to_file(dict_to_json_str(get_map(MAP3_ID)), MAP_FIXTURE_PATH_3)

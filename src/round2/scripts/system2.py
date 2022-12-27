@@ -19,6 +19,3 @@ def dict_to_json_str(data):
     data = json.dumps(data, indent=4)
     return data
 
-
-write_to_file(MAP2_ID, MAP_FIXTURE_PATH)
-dict_to_json_str(MAP2_ID)
