@@ -10,8 +10,8 @@ MAP_ID = 'faf7ef78-41b3-4a36-8423-688a61929c08'
 MAP2_ID = 'a8e01288-28f8-45ee-9db4-f74fc4ff02c8'
 MAP3_ID = 'dd6ed651-8ed6-4aeb-bcbc-d8a51c8383cc'
 URL_MAP_GET = 'https://datsanta.dats.team/json/map/{}.json'
-URL_JSON_GET = 'https://datsanta.dats.team/api/round2/{}'
-URL_JSON_POST = 'https://datsanta.dats.team/api/round2'
+URL_JSON_GET = 'https://datsanta.dats.team/api/round/{}'
+URL_JSON_POST = 'https://datsanta.dats.team/api/round'
 TEAM_SECRET_TOKEN = 'bf31be91-70a6-476e-ae99-2b1c50f58ab8'
 
 
@@ -54,10 +54,10 @@ def get_result(round_id):
 
 
 BASE_DIR = Path.cwd()
-MAP_FIXTURE_NAME_2 = 'map2.json'
-MAP_FIXTURE_PATH_2 = BASE_DIR.joinpath(MAP_FIXTURE_NAME_2)
-RESULT_JSON_NAME_2 = 'result.json'
-RESULT_JSON_PATH = BASE_DIR.joinpath(RESULT_JSON_NAME_2)
+MAP_FIXTURE_NAME_3 = 'map.json'
+MAP_FIXTURE_PATH_3 = BASE_DIR.joinpath(MAP_FIXTURE_NAME_3)
+RESULT_JSON_NAME_3 = 'result.json'
+RESULT_JSON_PATH = BASE_DIR.joinpath(RESULT_JSON_NAME_3)
 
 
 def write_to_file(data, file_path):
@@ -70,6 +70,7 @@ def dict_to_json_str(data):
     return data
 
 
-get_map(MAP2_ID)
-write_to_file(MAP2_ID, MAP_FIXTURE_PATH_2)
-print(dict_to_json_str(get_map(MAP2_ID)))
+f = get_map(MAP3_ID)
+# write_to_file(MAP3_ID, MAP_FIXTURE_PATH_3)
+a = dict_to_json_str(f['children'])
+print(a)
