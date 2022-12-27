@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
+import re
 import json
+import time
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 
@@ -128,6 +130,24 @@ def find_by_type(gifts: List[Dict[str, Any]],
     return best_gift if best_gift else None
 
 
+def get_result(round_id):
+    logger.info("Запрос подтверждения решения...")
+    r = requests.get(URL_JSON_GET.format(round_id), headers={
+        "Content-Type": "application/json",
+        "X-API-Key": TEAM_SECRET_TOKEN
+    })
+    if '"status":"pending"' in r.text:
+        logger.info("Решение находится в обработке...")
+        time.sleep(120)
+        get_result(round_id)
+    elif '"status":"processed"' in r.text:
+        logger.info("Получены данные с сервера.\n" +  # noqa: W504
+                    "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text))
+    else:
+        logger.error("Возникла ошибка.\n" +  # noqa: W504
+                     "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text))
+
+
 def main(map_id: str = MAP2_ID):
     # Формируем словарь, который в итоге отправится на сервер как JSON
     request = {
@@ -165,6 +185,12 @@ def main(map_id: str = MAP2_ID):
     })
     logger.info("Отправлены данные на сервер.\n" +  # noqa: W504
                 "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text))
+    
+    # Получаем результат
+    round_id = re.search(r'"roundId":"(.*)"', r.text).group(1)
+    logger.debug("Round ID = {}".format(round_id))
+    if round_id:
+        get_result(round_id)
 
 
 if __name__ == '__main__':
