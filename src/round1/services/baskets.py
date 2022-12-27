@@ -24,7 +24,7 @@ def get_gift_baskets(gifts: List[Dict[Literal['id', 'weight', 'volume'], int]],
         # Если добавление подарка не превышает лимиты веса и объема,
         # то добавляем его в текущий мешок
         if current_weight + gift['weight'] <= max_weight and \
-                current_volume + gift['volume'] <= max_volume: 
+                current_volume + gift['volume'] <= max_volume:
             current_basket.append(gift)
             current_weight += gift['weight']
             current_volume += gift['volume']
@@ -42,7 +42,7 @@ def get_gift_baskets(gifts: List[Dict[Literal['id', 'weight', 'volume'], int]],
     # Делаем выборку данных. По умолчанию берутся полные данные
     if selection in ['id', 'weight', 'volume']:
         baskets = [list(map(lambda x: x[selection], basket)) for basket in baskets]
-    
+
     baskets.sort(key=len, reverse=reverse)
 
     return baskets

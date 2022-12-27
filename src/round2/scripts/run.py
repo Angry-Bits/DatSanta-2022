@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import json
+from pathlib import Path
 from typing import List, Dict, Any, Optional
 
 import requests
@@ -30,14 +31,14 @@ def select_gifts(gifts: List[Dict[str, Any]], children: List[Dict[str, Any]]) ->
 
     # Сортируем список детей по возрасту в порядке возрастания
     children.sort(key=lambda x: x['age'])
-    
+
     # Сортируем список подарков по цене в порядке возрастания
     gifts.sort(key=lambda x: x['price'])
-    
+
     # Общая стоимость подарков и список выбранных подарков
     total_price = 0
     selected_gifts = []
-    
+
     # Пока количество выбранных подарков меньше CHILDREN_COUNT
     while len(selected_gifts) < CHILDREN_COUNT:
         # Для каждого ребенка в списке детей
@@ -74,7 +75,7 @@ def select_gifts(gifts: List[Dict[str, Any]], children: List[Dict[str, Any]]) ->
         # Если не нашлось подходящего подарка или общая стоимость подарков превышает бюджет
         if best_gift is None or total_price > MAX_BUDGET:
             break
-    
+
     return selected_gifts
 
 
@@ -134,9 +135,9 @@ def main(map_id: str = MAP2_ID):
         "presentingGifts": []
     }
     # Скачиваем карту, берем оттуда информацию о подарках и детях
-    r = requests.get(URL_MAP_GET.format(id))
+    r = requests.get(URL_MAP_GET.format(map_id))
     data = json.loads(r.text)
-    logger.info("Получена карта с ID {}".format(id))
+    logger.info("Получена карта с ID {}".format(map_id))
 
     gifts = data.get('gifts')
     children = data.get('children')
@@ -151,14 +152,19 @@ def main(map_id: str = MAP2_ID):
                 "childID": gift['child']['id']
             }
         )
+    # Делаем запись в файл
+    data = json.dumps(data, indent=4)
+    file_path = Path(__file__).parent.parent.joinpath('result.json')
+    with file_path.open('w', encoding='utf-8') as file:
+        file.write(data)
+
     # Отправляем данные на сервер и получаем результат
     r = requests.post(URL_JSON_POST, json=request, headers={
         "Content-Type": "application/json",
         "X-API-Key": TEAM_SECRET_TOKEN
     })
-    logger.info("Отправлены данные на сервер.\n" +
-        "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text)
-    )
+    logger.info("Отправлены данные на сервер.\n" +  # noqa: W504
+                "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text))
 
 
 if __name__ == '__main__':

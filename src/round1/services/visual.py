@@ -1,12 +1,14 @@
 import sys
 import json
-import matplotlib
 from datetime import datetime
 
-matplotlib.use('Qt5Agg')
 from PyQt5 import QtWidgets
+import matplotlib
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
+
+matplotlib.use('Qt5Agg')
+
 
 with open('C:/Users/User/Documents/GitHub/Hackathon-DatSanta-2022/result.json', 'r') as result:
     move = json.loads(result.read())['moves']
