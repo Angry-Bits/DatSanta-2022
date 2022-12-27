@@ -25,9 +25,8 @@ def post_json(data):
         "Content-Type": "application/json",
         "X-API-Key": TEAM_SECRET_TOKEN
     })
-    logger.info("Отправлены данные на сервер.\n" +
-        "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text)
-    )
+    logger.info("Отправлены данные на сервер.\n" +  # noqa: W504
+                "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text))
     return r
 
 
@@ -42,10 +41,8 @@ def get_result(round_id):
         time.sleep(120)
         get_result(round_id)
     elif '"status":"processed"' in r.text:
-        logger.info("Получены данные с сервера.\n" +
-            "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text)
-        )
+        logger.info("Получены данные с сервера.\n" +  # noqa: W504
+                    "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text))
     else:
-        logger.info("Возникла ошибка.\n" +
-            "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text)
-        )
+        logger.info("Возникла ошибка.\n" +  # noqa: W504
+                    "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text))

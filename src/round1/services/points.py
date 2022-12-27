@@ -35,7 +35,7 @@ def create_cluster(points: List[Tuple[float, float]],
 
 
 def sort_cluster(points: List[Tuple[float, float]]) -> List[Tuple[float, float]]:
-    # Список результата, в который будем добавлять точки в нужном порядке 
+    # Список результата, в который будем добавлять точки в нужном порядке
     result = []
     # Находим начальную точку - самую ближайшую к центру координат
     start = find_nearest_point(points)
