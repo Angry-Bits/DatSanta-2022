@@ -79,4 +79,4 @@ def find_nearest_point(points: List[Tuple[float, float]]) -> Tuple[float, float]
 
 def get_children_addresses(children: List[Dict[str, float]]) -> List[Tuple[float, float]]:
     # Преобразует данные в списке вида {'x': float, 'y': float} в (float, float)
-    return list(tuple(point.values()) for point in children)
+    return list(tuple([point.get("x"), point.get("y")]) for point in children)

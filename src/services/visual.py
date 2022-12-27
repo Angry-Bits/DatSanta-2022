@@ -1,5 +1,6 @@
 import sys
 import json
+from pathlib import Path
 from datetime import datetime
 
 from PyQt5 import QtWidgets
@@ -9,8 +10,8 @@ from matplotlib.figure import Figure
 
 matplotlib.use('Qt5Agg')
 
-
-with open('C:/Users/User/Documents/GitHub/Hackathon-DatSanta-2022/result.json', 'r') as result:
+result_file = Path(__file__).parent.parent.joinpath('result.json')
+with open(result_file, 'r') as result:
     move = json.loads(result.read())['moves']
 
 

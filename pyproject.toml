@@ -3,9 +3,9 @@ name = "hackathon-code"
 version = "0.1.0"
 description = ""
 authors = [
-    "Igor Gakhov <gakhov_igor@rambler.ru>",
-    "Lyubov Shumilova <shumilova.lyubochka@gmail.com>"
-    # Sergey Prokhorov
+    "IgorGakhov <gakhov_igor@rambler.ru>",
+    "Lova595 <shumilova.lyubochka@gmail.com>",
+    "notsoyoungg <p.sergey1997@mail.ru>"
 ]
 packages = [
   { include = "src" },

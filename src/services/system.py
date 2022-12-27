@@ -14,6 +14,6 @@ def write_to_file(data, file_path):
         file.write(data)
 
 
-def dict_to_json_str(data):
+def dict_to_str_like_json(data):
     data = json.dumps(data, indent=4)
     return data

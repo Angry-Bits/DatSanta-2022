@@ -13,10 +13,10 @@ URL_JSON_POST = 'https://datsanta.dats.team/api/round'
 TEAM_SECRET_TOKEN = 'bf31be91-70a6-476e-ae99-2b1c50f58ab8'
 
 
-def get_map(id):
-    r = requests.get(URL_MAP_GET.format(id))
+def get_map(map_id):
+    r = requests.get(URL_MAP_GET.format(map_id))
     data = json.loads(r.text)
-    logger.info("Получена карта с ID {}".format(id))
+    logger.info("Получена карта с ID {}".format(map_id))
     return data
 
 
@@ -44,5 +44,5 @@ def get_result(round_id):
         logger.info("Получены данные с сервера.\n" +  # noqa: W504
                     "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text))
     else:
-        logger.info("Возникла ошибка.\n" +  # noqa: W504
-                    "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text))
+        logger.error("Возникла ошибка.\n" +  # noqa: W504
+                     "Код ответа: {}.\nСообщение: {}".format(r.status_code, r.text))
