@@ -54,7 +54,7 @@ def get_result(round_id):
 
 
 BASE_DIR = Path.cwd()
-MAP_FIXTURE_NAME_3 = 'map.json'
+MAP_FIXTURE_NAME_3 = 'map3.json'
 MAP_FIXTURE_PATH_3 = BASE_DIR.joinpath(MAP_FIXTURE_NAME_3)
 RESULT_JSON_NAME_3 = 'result.json'
 RESULT_JSON_PATH = BASE_DIR.joinpath(RESULT_JSON_NAME_3)
